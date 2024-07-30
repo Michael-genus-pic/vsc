@@ -1,0 +1,38 @@
+== animal == 
+    cd animal
+    sudo docker stop animal; sudo docker rm animal ; sudo docker rmi animal
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t animal . ; sudo docker run --net=host -d --name animal animal; rm -rf utils ; ln -s ../utils utils
+    cd ..
+    
+== litter == 
+    cd litter
+    sudo docker stop litter; sudo docker rm litter ; sudo docker rmi litter
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t litter . ; sudo docker run --net=host -d --name litter litter; rm -rf utils ; ln -s ../utils utils
+    cd ..
+== notification == 
+    cd notification
+    sudo docker stop notification; sudo docker rm notification ; sudo docker rmi notification
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t notification . ; sudo docker run --net=host -d --name notification notification; rm -rf utils ; ln -s ../utils utils
+    cd ..
+== queueprocessor == 
+    cd queueprocessor
+    sudo docker stop queueprocessor; sudo docker rm queueprocessor ; sudo docker rmi queueprocessor
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t queueprocessor . ; sudo docker run --net=host -d --name queueprocessor queueprocessor; rm -rf utils ; ln -s ../utils utils
+    cd ..
+
+
+
+== utils ==
+go to docker bash
+    sudo docker exec -it <container> bash
+check docker log
+    sudo docker logs -f <container>
+
+build zip <file> include <folder>
+    zip -r <file> <folder> 
+
+dump file system: 
+    sudo docker export -o <File>.tar <container>
+
+== start locally ==
+    fastapi run app/server.py --reload --port 2000
