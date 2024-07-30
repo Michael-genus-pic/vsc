@@ -23,8 +23,6 @@ app.mongodb_client = MongoClient(config['db']['url'])
 db = app.mongodb_client.testDB
 collection = db.Animal
 
-app = VersionedFastAPI(app)
-
 queue = Queue( MongoClient(config['db']['url']).testDB.queue, consumer_id="consumer1",  timeout=300, max_attempts=len(config['retryWait']))
 
 @app.get(
