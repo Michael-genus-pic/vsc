@@ -1,0 +1,7 @@
+fastapi
+fastapi_versioning
+pydantic
+pymongo
+requests
+mongo-queue-service
+schedule

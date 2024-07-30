@@ -7,7 +7,7 @@ import json
 
 from utils.config import config
 
-urls = config['api_urls']
+apis = config['apis']
 
 
 
@@ -29,9 +29,10 @@ endOfFunction = "\
 
 
 fileContent += "import json\nimport requests\n\n"
-for api, url in urls.items():
+for api, detail in apis.items():
     fileContent += f"\nclass {api}:\n"
-    response = requests.get(f"{url}/openapi.json")
+    versionPath = "" if "version" not in detail else f"/{detail['version']}"
+    response = requests.get(f"{detail['url']}{versionPath}/openapi.json")
     specPaths = json.loads(response._content.decode('utf-8'))['paths']
     for path, pathDetail in specPaths.items():
         for method, actionDetail in pathDetail.items():
@@ -47,7 +48,7 @@ for api, url in urls.items():
             if payload: functionParamList.append('payload')
             functionParam = ", ".join(list(functionParamList))
             fileContent += f"    def {functionName} ( {functionParam} ):\n"
-            fullPath = f"{url}{path}"
+            fullPath = f"{detail['url']}{versionPath}{path}"
             fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
             fileContent += endOfFunction
 

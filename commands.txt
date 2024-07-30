@@ -14,6 +14,12 @@
     sudo docker stop notification; sudo docker rm notification ; sudo docker rmi notification
     rm  utils ; cp -r ../utils/ .; sudo docker build -t notification . ; sudo docker run --net=host -d --name notification notification; rm -rf utils ; ln -s ../utils utils
     cd ..
+
+== versioning == 
+    cd versioning
+    sudo docker stop versioning; sudo docker rm versioning ; sudo docker rmi versioning
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t versioning . ; sudo docker run --net=host -d --name versioning versioning; rm -rf utils ; ln -s ../utils utils
+    cd ..
 == queueprocessor == 
     cd queueprocessor
     sudo docker stop queueprocessor; sudo docker rm queueprocessor ; sudo docker rmi queueprocessor
