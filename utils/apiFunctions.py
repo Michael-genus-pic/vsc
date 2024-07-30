@@ -86,7 +86,17 @@ class notification:
             return json.loads(response._content.decode('utf-8'))
 
 
-class versionTest:
+class versionv1:
+    def Apimessage (  ):
+        response = requests.get(f'http://127.0.0.1:3003/v1_0/ep')
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+
+class versionv2:
     def Apimessage (  ):
         response = requests.get(f'http://127.0.0.1:3003/v2_0/ep')
         if response.status_code  != 200:
