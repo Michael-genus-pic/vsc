@@ -11,7 +11,7 @@ import datetime
 
 from fastapi_versioning import VersionedFastAPI, version
 
-app = FastAPI(docs_url="/docs")
+app = FastAPI(docs_url="/docs", title = 'Notification')
 
 
 

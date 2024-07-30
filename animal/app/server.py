@@ -18,7 +18,7 @@ import utils.apiFunctions as apiFunctions
 
 from fastapi_versioning import VersionedFastAPI, version
 
-app = FastAPI(docs_url="/docs")
+app = FastAPI(docs_url="/docs", title = 'Animal')
 app.mongodb_client = MongoClient(config['db']['url'])
 db = app.mongodb_client.testDB
 collection = db.Animal

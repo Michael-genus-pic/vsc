@@ -14,7 +14,7 @@ import utils.apiFunctions as apiFunctions
 
 
 
-app = FastAPI(docs_url="/docs")
+app = FastAPI(docs_url="/docs", title = 'Litter')
 app.mongodb_client = MongoClient(config['db']['url'])
 db = app.mongodb_client.testDB
 collection = db.Litter
