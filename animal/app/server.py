@@ -27,7 +27,6 @@ queue = Queue( MongoClient(config['db']['url']).testDB.queue, consumer_id="consu
 
 @app.get(
     "/ident/{animalIdent}",
-    name="Get Animal By ident",
     description="find the single animal with litter id",
     response_model=Animal,
     responses={404: {"model": Message}},
@@ -60,12 +59,10 @@ def getAnimalByLitterId(litterId: int) -> list[Animal]:
 
 @app.post(
     "/",
-    name="New Animal",
     description="Insert a new Animal",
     response_model=Animal,
     responses={400: {"model": Message}},
 )
-@version(1)
 def addAnimal(animal: RawAnimal) -> Animal:
     existingAnimal = collection.find_one({"ident": animal.ident})
     if existingAnimal is not None:

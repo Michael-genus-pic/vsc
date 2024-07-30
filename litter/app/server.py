@@ -56,7 +56,7 @@ def getLitterBySireDam(sire: int, dam: int) -> list[Litter]:
 def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
     try:
         litter = getLitterById(litterId)
-        litter["litterMates"] = apiFunctions.animal.GetAnimalByIdent(litterId)
+        litter["litterMates"] = apiFunctions.animal.Getanimalbylitterid(litterId)
         return litter
     except Exception as e:
         raise e
@@ -95,7 +95,7 @@ def addAnimal(litterId: int, pigletIdent: int) -> Litter:
             detail={"msg": f"Litter not found with litterId {litterId}"},
         )
 
-    animal = apiFunctions.animal.GetAnimalByIdent(pigletIdent)
+    animal = apiFunctions.animal.Getanimalbyid(pigletIdent)
     if animal is None:
         raise HTTPException(
             status_code=400,

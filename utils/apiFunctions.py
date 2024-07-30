@@ -9,7 +9,7 @@ import requests
 
 
 class animal:
-    def GetAnimalByIdent ( animalIdent ):
+    def Getanimalbyid ( animalIdent ):
         response = requests.get(f'http://127.0.0.1:3000/ident/{animalIdent}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
@@ -25,7 +25,7 @@ class animal:
         else:
             return json.loads(response._content.decode('utf-8'))
 
-    def NewAnimal ( payload ):
+    def Addanimal ( payload ):
         response = requests.post(f'http://127.0.0.1:3000/', json=payload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
