@@ -23,6 +23,7 @@ collection = db.Litter
 @app.get(
     "/litterId/{litterId}", response_model=Litter, responses={404: {"model": Message}}
 )
+@version(1)
 def getLitterById(litterId: int) -> Litter:
     litterFound = collection.find_one({"litterId": litterId})
     if litterFound:
@@ -38,6 +39,7 @@ def getLitterById(litterId: int) -> Litter:
     response_model=list[Litter],
     responses={404: {"model": Message}},
 )
+@version(1)
 def getLitterBySireDam(sire: int, dam: int) -> list[Litter]:
     littersFound = list(collection.find({"sire": sire, "dam": dam}))
     if littersFound:
@@ -53,10 +55,11 @@ def getLitterBySireDam(sire: int, dam: int) -> list[Litter]:
     response_model=LitterWithLitterMates,
     responses={404: {"model": Message}},
 )
+@version(1)
 def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
     try:
         litter = getLitterById(litterId)
-        litter["litterMates"] = apiFunctions.animal.Getanimalbylitterid(litterId)
+        litter["litterMates"] = apiFunctions.animal_v1_0.Getanimalbylitterid(litterId)
         return litter
     except Exception as e:
         raise e
@@ -69,6 +72,7 @@ def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
     response_model=Litter,
     responses={400: {"model": Message}, 404: {"model": Message}},
 )
+@version(1)
 def addLitter(litter: RawLitter) -> Litter:
     existingLitter = collection.find_one({"litterId": litter.litterId})
     if existingLitter is not None:
@@ -87,6 +91,7 @@ def addLitter(litter: RawLitter) -> Litter:
     response_model=Litter,
     responses={400: {"model": Message}, 404: {"model": Message}},
 )
+@version(1)
 def addAnimal(litterId: int, pigletIdent: int) -> Litter:
     litter = collection.find_one({"litterId": litterId})
     if litter is None:
@@ -95,7 +100,7 @@ def addAnimal(litterId: int, pigletIdent: int) -> Litter:
             detail={"msg": f"Litter not found with litterId {litterId}"},
         )
 
-    animal = apiFunctions.animal.Getanimalbyid(pigletIdent)
+    animal = apiFunctions.animal_v1_0.Getanimalbyid(pigletIdent)
     if animal is None:
         raise HTTPException(
             status_code=400,
@@ -114,3 +119,7 @@ def addAnimal(litterId: int, pigletIdent: int) -> Litter:
     )
 
     return mongoToJson(litter)
+
+
+
+app = VersionedFastAPI(app, enable_latest=True)
