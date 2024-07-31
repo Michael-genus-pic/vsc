@@ -92,7 +92,7 @@ def addLitter(litter: RawLitter) -> Litter:
     responses={400: {"model": Message}, 404: {"model": Message}},
 )
 @version(1)
-def addAnimal(litterId: int, pigletIdent: int) -> Litter:
+def addPigletToLitter(litterId: int, pigletIdent: int) -> Litter:
     litter = collection.find_one({"litterId": litterId})
     if litter is None:
         raise HTTPException(
