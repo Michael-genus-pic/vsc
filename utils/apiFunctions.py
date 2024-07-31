@@ -34,6 +34,32 @@ class animal_v1_0:
             return json.loads(response._content.decode('utf-8'))
 
 
+class animal_v2_0:
+    def Getanimalbyid ( animalIdent ):
+        response = requests.get(f'http://127.0.0.1:3000/v2_0/ident/{animalIdent}')
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+    def Getanimalbylitterid ( litterId ):
+        response = requests.get(f'http://127.0.0.1:3000/v2_0/litterId/{litterId}')
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+    def Addanimal ( payload ):
+        response = requests.post(f'http://127.0.0.1:3000/v2_0/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+
 class litter_v1_0:
     def Getlitterbyid ( litterId ):
         response = requests.get(f'http://127.0.0.1:3001/v1_0/litterId/{litterId}')

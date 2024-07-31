@@ -66,6 +66,27 @@ def addAnimal(animal: RawAnimal) -> Animal:
         )
     insertResult = collection.insert_one(animal.model_dump())
     insertedAnimal = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
+    return mongoToJson(insertedAnimal)
+
+
+
+
+@app.post(
+    "/",
+    description="Insert a new Animal",
+    response_model=Animal,
+    responses={400: {"model": Message}},
+)
+@version(2)
+def addAnimal(animal: RawAnimal) -> Animal:
+    existingAnimal = collection.find_one({"ident": animal.ident})
+    if existingAnimal is not None:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"Animal already exists with ident {animal.ident}"},
+        )
+    insertResult = collection.insert_one(animal.model_dump())
+    insertedAnimal = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
     enqueueApiCall(apiFunctions.litter_v1_0.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
     return mongoToJson(insertedAnimal)
 
