@@ -8,9 +8,9 @@ import json
 import requests
 
 
-class animal:
+class animal_v1_0:
     def Getanimalbyid ( animalIdent ):
-        response = requests.get(f'http://127.0.0.1:3000/ident/{animalIdent}')
+        response = requests.get(f'http://127.0.0.1:3000/v1_0/ident/{animalIdent}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -18,7 +18,7 @@ class animal:
             return json.loads(response._content.decode('utf-8'))
 
     def Getanimalbylitterid ( litterId ):
-        response = requests.get(f'http://127.0.0.1:3000/litterId/{litterId}')
+        response = requests.get(f'http://127.0.0.1:3000/v1_0/litterId/{litterId}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -26,7 +26,7 @@ class animal:
             return json.loads(response._content.decode('utf-8'))
 
     def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1:3000/', json=payload)
+        response = requests.post(f'http://127.0.0.1:3000/v1_0/', json=payload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -34,9 +34,9 @@ class animal:
             return json.loads(response._content.decode('utf-8'))
 
 
-class litter:
+class litter_v1_0:
     def Getlitterbyid ( litterId ):
-        response = requests.get(f'http://127.0.0.1:3001/litterId/{litterId}')
+        response = requests.get(f'http://127.0.0.1:3001/v1_0/litterId/{litterId}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -44,7 +44,7 @@ class litter:
             return json.loads(response._content.decode('utf-8'))
 
     def Getlitterbysiredam ( sire, dam ):
-        response = requests.get(f'http://127.0.0.1:3001/sire/{sire}/dam/{dam}')
+        response = requests.get(f'http://127.0.0.1:3001/v1_0/sire/{sire}/dam/{dam}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -52,7 +52,7 @@ class litter:
             return json.loads(response._content.decode('utf-8'))
 
     def Getlittermatesbylitterid ( litterId ):
-        response = requests.get(f'http://127.0.0.1:3001/litterMates/litterId/{litterId}')
+        response = requests.get(f'http://127.0.0.1:3001/v1_0/litterMates/litterId/{litterId}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -60,7 +60,7 @@ class litter:
             return json.loads(response._content.decode('utf-8'))
 
     def AddANewLitter ( payload ):
-        response = requests.post(f'http://127.0.0.1:3001/', json=payload)
+        response = requests.post(f'http://127.0.0.1:3001/v1_0/', json=payload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -68,7 +68,7 @@ class litter:
             return json.loads(response._content.decode('utf-8'))
 
     def AddPigletToLitter ( litterId, pigletIdent ):
-        response = requests.put(f'http://127.0.0.1:3001/litterId/{litterId}/pigletIdent/{pigletIdent}')
+        response = requests.put(f'http://127.0.0.1:3001/v1_0/litterId/{litterId}/pigletIdent/{pigletIdent}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -76,9 +76,9 @@ class litter:
             return json.loads(response._content.decode('utf-8'))
 
 
-class notification:
+class notification_v1_0:
     def Addnewqueue ( payload ):
-        response = requests.post(f'http://127.0.0.1:3002/queue', json=payload)
+        response = requests.post(f'http://127.0.0.1:3002/v1_0/queue', json=payload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -86,7 +86,7 @@ class notification:
             return json.loads(response._content.decode('utf-8'))
 
 
-class vtv1:
+class versioning_v1_0:
     def Apimessage (  ):
         response = requests.get(f'http://127.0.0.1:3003/v1_0/ep')
         if response.status_code  != 200:
@@ -96,7 +96,7 @@ class vtv1:
             return json.loads(response._content.decode('utf-8'))
 
 
-class v2v2:
+class versioning_v2_0:
     def Apimessage (  ):
         response = requests.get(f'http://127.0.0.1:3003/v2_0/ep')
         if response.status_code  != 200:
