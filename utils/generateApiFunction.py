@@ -30,27 +30,33 @@ endOfFunction = "\
 
 fileContent += "import json\nimport requests\n\n"
 for api, detail in apis.items():
-    fileContent += f"\nclass {api}:\n"
-    versionPath = "" if "version" not in detail else f"/{detail['version']}"
-    response = requests.get(f"{detail['url']}{versionPath}/openapi.json")
-    specPaths = json.loads(response._content.decode('utf-8'))['paths']
-    for path, pathDetail in specPaths.items():
-        for method, actionDetail in pathDetail.items():
-            functionName = actionDetail['summary'].replace(" ", '')
-            params = []
-            payload = False
-            if 'parameters' in actionDetail:
-                for thisParam in actionDetail['parameters']:
-                    params.append(thisParam['name'])
-            if 'requestBody' in actionDetail:
-                payload = True
-            functionParamList = list(params)
-            if payload: functionParamList.append('payload')
-            functionParam = ", ".join(list(functionParamList))
-            fileContent += f"    def {functionName} ( {functionParam} ):\n"
-            fullPath = f"{detail['url']}{versionPath}{path}"
-            fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
-            fileContent += endOfFunction
+    rootResponse = requests.get(f"{detail['url']}/openapi.json")
+    openApiObj = json.loads(rootResponse._content.decode('utf-8'))
+    
+    for rootPath, pathDetail in openApiObj['paths'].items():
+        if pathDetail['get']['tags'] != ['Versions']:
+            continue
+        empty, apiVersion, apiFileName = rootPath.split('/')
+        response = requests.get(f"{detail['url']}/{apiVersion}/{apiFileName}")
+        specPaths = json.loads(response._content.decode('utf-8'))['paths']
+        fileContent += f"\nclass {api}_{apiVersion}:\n"
+        for path, pathDetail in specPaths.items():
+            for method, actionDetail in pathDetail.items():
+                functionName = actionDetail['summary'].replace(" ", '')
+                params = []
+                payload = False
+                if 'parameters' in actionDetail:
+                    for thisParam in actionDetail['parameters']:
+                        params.append(thisParam['name'])
+                if 'requestBody' in actionDetail:
+                    payload = True
+                functionParamList = list(params)
+                if payload: functionParamList.append('payload')
+                functionParam = ", ".join(list(functionParamList))
+                fileContent += f"    def {functionName} ( {functionParam} ):\n"
+                fullPath = f"{detail['url']}/{apiVersion}{path}"
+                fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
+                fileContent += endOfFunction
 
 file = open("utils/apiFunctions.py", "w")
 file.write(fileContent)

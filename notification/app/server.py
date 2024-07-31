@@ -20,6 +20,11 @@ queue = Queue( MongoClient(config['db']['url']).testDB.queue, consumer_id="consu
 
 
 @app.post("/queue")
+@version(1)
 async def addNewQueue(info: QueueData) -> Message:
     job = queue.put(info.model_dump())  
     return {"msg": str(job)}
+
+
+
+app = VersionedFastAPI(app, enable_latest=True)
