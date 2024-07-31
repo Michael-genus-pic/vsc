@@ -15,17 +15,15 @@ mongoClient = MongoClient(config['db']['url'])
 
 queue = Queue( mongoClient.testDB.queue, consumer_id="consumer1",  timeout=300, max_attempts=len(config['retryWait']))
 
-logCollection = mongoClient.testDB.logs
+queueLogCollection = mongoClient.testDB.queueLogs
 
 
 def runQueueMessage() -> None:
-    print ('nnnnnnnnnnnnnew')
-    result = {"processed": 0, "success": 0, "reQueued": 0, "stopped": 0}
+    result = {"processed": 0, "success": [], "reQueued": [], "stopped": []}
     channels = {'apiFunction': apiFunctionProcessor}
     for channel, runFunc in channels.items():
         job =  queue.next(channel=channel)
         while job is not None :
-            print (str(job.__dict__['_data']['_id']))
             result['processed'] = result["processed"] + 1
             runResult = 'success'
             try:
@@ -40,25 +38,21 @@ def runQueueMessage() -> None:
                 state['errorHistory'].append({"Error": str(e), "errorTime": datetime.datetime.now()})
                 runResult = 'reQueued' if job.attempts < len(config['retryWait'])-1 else "stopped"
                 job.release(sleep=config['retryWait'][job.attempts], state=state) 
-            
-            print ('be3fore', result)
-            # result[runResult].append(str(job.__dict__['_data']['_id']))
-            result[runResult] = result[runResult] +1 
-            print ('after', result)
-            job =  queue.next()
-            print (3333333333, str(job.__dict__['_data']['_id']))
+            result[runResult].append(str(job.__dict__['_data']['_id']))
+            job =  queue.next(channel=channel)
         if result['processed']:
             result['run_at'] = datetime.datetime.now()
             result['channel'] = channel
-            logCollection.insert_one(result)
+            queueLogCollection.insert_one(result)
 
 
 def apiFunctionProcessor(payload):
     action = getattr(getattr(apiFunctions, payload['destination']), payload['function'])
     response = action(**payload['params'])
     
+    
 
-schedule.every(10).seconds.do(runQueueMessage)
+schedule.every(5).seconds.do(runQueueMessage)
 print ('Starting')
 while True:
     schedule.run_pending()
