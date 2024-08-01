@@ -12,12 +12,12 @@ import utils.apiFunctions as apiFunctions
 
 
 
-app = FastAPI(docs_url="/docs", title = 'Animal')
-app.mongodb_client = MongoClient(config['db']['url'])
-db = app.mongodb_client.testDB
+subApp = FastAPI(docs_url="/docs", title = 'Animal')
+subApp.mongodb_client = MongoClient(config['db']['url'])
+db = subApp.mongodb_client.testDB
 collection = db.Animal
 
-@app.get(
+@subApp.get(
     "/ident/{animalIdent}",
     description="find the single animal with litter id",
     response_model=Animal,
@@ -34,7 +34,7 @@ def getAnimalById(animalIdent: int) -> Animal:
     )
 
 
-@app.get(
+@subApp.get(
     "/litterId/{litterId}",
     description="find all the animals with litter id",
     response_model=list[Animal],
@@ -50,7 +50,7 @@ def getAnimalByLitterId(litterId: int) -> list[Animal]:
         detail={"msg": f"Animals not found with litterId {litterId}"},
     )
 
-@app.post(
+@subApp.post(
     "/",
     description="Insert a new Animal",
     response_model=Animal,
@@ -71,7 +71,7 @@ def addAnimal(animal: RawAnimal) -> Animal:
 
 
 
-@app.post(
+@subApp.post(
     "/",
     description="Insert a new Animal",
     response_model=Animal,
@@ -91,4 +91,8 @@ def addAnimal(animal: RawAnimal) -> Animal:
     return mongoToJson(insertedAnimal)
 
 
-app = VersionedFastAPI(app, enable_latest=True)
+subApp = VersionedFastAPI(subApp, enable_latest=True)
+
+app= FastAPI()
+
+app.mount('/animal', subApp)

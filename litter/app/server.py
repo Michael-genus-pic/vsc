@@ -14,13 +14,13 @@ import utils.apiFunctions as apiFunctions
 
 
 
-app = FastAPI(docs_url="/docs", title = 'Litter')
-app.mongodb_client = MongoClient(config['db']['url'])
-db = app.mongodb_client.testDB
+subApp = FastAPI(docs_url="/docs", title = 'Litter')
+subApp.mongodb_client = MongoClient(config['db']['url'])
+db = subApp.mongodb_client.testDB
 collection = db.Litter
 
 
-@app.get(
+@subApp.get(
     "/litterId/{litterId}", response_model=Litter, responses={404: {"model": Message}}
 )
 @version(1)
@@ -34,7 +34,7 @@ def getLitterById(litterId: int) -> Litter:
     )
 
 
-@app.get(
+@subApp.get(
     "/sire/{sire}/dam/{dam}",
     response_model=list[Litter],
     responses={404: {"model": Message}},
@@ -50,7 +50,7 @@ def getLitterBySireDam(sire: int, dam: int) -> list[Litter]:
     )
 
 
-@app.get(
+@subApp.get(
     "/litterMates/litterId/{litterId}",
     response_model=LitterWithLitterMates,
     responses={404: {"model": Message}},
@@ -65,7 +65,7 @@ def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
         raise e
 
 
-@app.post(
+@subApp.post(
     "/",
     name="Add a new Litter",
     description="add a new Litter",
@@ -84,7 +84,7 @@ def addLitter(litter: RawLitter) -> Litter:
     insertedLitter = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
     return mongoToJson(insertedLitter)
 
-@app.put(
+@subApp.put(
     "/litterId/{litterId}/pigletIdent/{pigletIdent}",
     name="Add piglet to Litter",
     description="add an piglet ident to litter",
@@ -122,4 +122,8 @@ def addPigletToLitter(litterId: int, pigletIdent: int) -> Litter:
 
 
 
-app = VersionedFastAPI(app, enable_latest=True)
+subApp = VersionedFastAPI(subApp, enable_latest=True)
+
+app= FastAPI()
+
+app.mount('/litter', subApp)

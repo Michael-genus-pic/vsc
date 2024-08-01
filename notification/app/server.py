@@ -11,7 +11,7 @@ import datetime
 
 from fastapi_versioning import VersionedFastAPI, version
 
-app = FastAPI(docs_url="/docs", title = 'Notification')
+subApp = FastAPI(docs_url="/docs", title = 'Notification')
 
 
 
@@ -19,7 +19,7 @@ queue = Queue( MongoClient(config['db']['url']).testDB.queue, consumer_id="consu
 
 
 
-@app.post("/queue")
+@subApp.post("/queue")
 @version(1)
 async def addNewQueue(info: QueueData) -> Message:
     job = queue.put(info.model_dump())  
@@ -27,4 +27,8 @@ async def addNewQueue(info: QueueData) -> Message:
 
 
 
-app = VersionedFastAPI(app, enable_latest=True)
+subApp = VersionedFastAPI(subApp, enable_latest=True)
+
+app= FastAPI()
+
+app.mount('/notification', subApp)

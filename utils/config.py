@@ -1,11 +1,13 @@
+
+hostName = "192.168.0.233"
 config = {
     # "retryWait": [5, 10, 30, 60, 120, 300, 600, 1800],
     "retryWait": [5, 5,5,5,5,5,5,5,5],
-    "db": {"url": "mongodb://127.0.0.1:27017/"},
+    "db": {"url": f"mongodb://{hostName}:27017/"},
     "apis":{
-        "animal": {"url":"http://127.0.0.1:3000"},
-        "litter": {"url":"http://127.0.0.1:3001"},
-        "notification": {"url":"http://127.0.0.1:3002"},
-        "versioning": {"url":"http://127.0.0.1:3003"}
+        "animal": {"url":f"http://{hostName}/animal"},
+        "litter": {"url":f"http://{hostName}/litter"},
+        "notification": {"url":f"http://{hostName}/notification"},
+        "versioning": {"url":f"http://{hostName}/versioning"}
     }
 }
