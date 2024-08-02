@@ -1,5 +1,4 @@
-isInDocker = False
-hostName = "192.168.0.233"
+hostName = "127.0.0.1"
 config = {
     "retryWait": [5, 10, 30, 60, 120, 300, 600, 1800],
     "db": {"url": f"mongodb://{hostName}:27017/"},

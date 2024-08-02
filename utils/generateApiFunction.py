@@ -5,7 +5,7 @@ import requests
 import json
 
 
-from utils.config import config, hostName, isInDocker
+from utils.config import config, hostName
 
 apis = config['apis']
 
@@ -27,13 +27,14 @@ endOfFunction = "\
             return json.loads(response._content.decode('utf-8'))\n\n\
 "
 
-for dockerOption in (True, False):
+for dockerOption in (False, True ):
+    print (f"=== Generating functions for {'docker' if dockerOption else 'local'} use ===")
     fileContent += "import json\nimport requests\n\n"
     for api, detail in apis.items():
         print (f"Pulling from {api}:")
         rootResponse = requests.get(f"http://{hostName}/{api}/openapi.json")
         openApiObj = json.loads(rootResponse._content.decode('utf-8'))
-        
+        openApiObj['paths']['/latest/openapi.json'] = {"get":{"tags":['Versions']}}
         for rootPath, pathDetail in openApiObj['paths'].items():
             if pathDetail['get']['tags'] != ['Versions']:
                 continue

@@ -16,7 +16,6 @@ sudo docker network create main
     sudo docker stop notification; sudo docker rm notification ; sudo docker rmi notification
     rm  utils ; cp -r ../utils/ .; sudo docker build -t notification . ; sudo docker run  -d --network=main  --name notification notification; rm -rf utils ; ln -s ../utils utils
     cd ..
-
 #== versioning == 
     cd versioning
     sudo docker stop versioning; sudo docker rm versioning ; sudo docker rmi versioning
@@ -30,7 +29,8 @@ sudo docker network create main
 #== dispatcher == 
     cd dispatcher
     sudo docker stop dispatcher; sudo docker rm dispatcher ; sudo docker rmi dispatcher
-    sudo docker build -t dispatcher . ; sudo docker run  -d -p 80:80 --network=main --name dispatcher dispatcher
+    python generateNginxConf.py
+    rm  utils ; cp -r ../utils/ .;sudo docker build -t dispatcher . ; sudo docker run  -d -p 80:80 --network=main --name dispatcher dispatcher; rm -rf utils ; ln -s ../utils utils
     cd ..
     
 
