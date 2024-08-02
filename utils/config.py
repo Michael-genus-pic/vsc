@@ -1,7 +1,10 @@
-hostName = "127.0.0.1"
+from utils.addresses import hostAddress, mongoServerAddress
+
+hostName = hostAddress
+
 config = {
     "retryWait": [5, 10, 30, 60, 120, 300, 600, 1800],
-    "db": {"url": f"mongodb://{hostName}:27017/"},
+    "db": {"url": f"mongodb://{mongoServerAddress}:27017/"},
     "apis":{
         "animal": {"port": 3000},
         "litter": {"port": 3001},
