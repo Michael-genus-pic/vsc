@@ -1,34 +1,36 @@
+
+sudo docker network create main
+
 #== animal == 
     cd animal
     sudo docker stop animal; sudo docker rm animal ; sudo docker rmi animal
-    rm  utils ; cp -r ../utils/ .; sudo docker build -t animal . ; sudo docker run  -d -p 3000:3000 --name animal animal; rm -rf utils ; ln -s ../utils utils
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t animal . ; sudo docker run  -d --network=main  --name animal animal; rm -rf utils ; ln -s ../utils utils
     cd ..
-    
 #== litter == 
     cd litter
     sudo docker stop litter; sudo docker rm litter ; sudo docker rmi litter
-    rm  utils ; cp -r ../utils/ .; sudo docker build -t litter . ; sudo docker run  -d -p 3001:3001  --name litter litter; rm -rf utils ; ln -s ../utils utils
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t litter . ; sudo docker run  -d --network=main  --name litter litter; rm -rf utils ; ln -s ../utils utils
     cd ..
 #== notification == 
     cd notification
     sudo docker stop notification; sudo docker rm notification ; sudo docker rmi notification
-    rm  utils ; cp -r ../utils/ .; sudo docker build -t notification . ; sudo docker run  -d  -p 3002:3002  --name notification notification; rm -rf utils ; ln -s ../utils utils
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t notification . ; sudo docker run  -d --network=main  --name notification notification; rm -rf utils ; ln -s ../utils utils
     cd ..
 
 #== versioning == 
     cd versioning
     sudo docker stop versioning; sudo docker rm versioning ; sudo docker rmi versioning
-    rm  utils ; cp -r ../utils/ .; sudo docker build -t versioning . ; sudo docker run  -d  -p 3003:3003 --name versioning versioning; rm -rf utils ; ln -s ../utils utils
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t versioning . ; sudo docker run  -d  --network=main  --name versioning versioning; rm -rf utils ; ln -s ../utils utils
     cd ..
 #== queueprocessor == 
     cd queueprocessor
     sudo docker stop queueprocessor; sudo docker rm queueprocessor ; sudo docker rmi queueprocessor
-    rm  utils ; cp -r ../utils/ .; sudo docker build -t queueprocessor . ; sudo docker run  -d --name queueprocessor queueprocessor; rm -rf utils ; ln -s ../utils utils
+    rm  utils ; cp -r ../utils/ .; sudo docker build -t queueprocessor . ; sudo docker run  -d --network=main --name queueprocessor queueprocessor; rm -rf utils ; ln -s ../utils utils
     cd ..
 #== dispatcher == 
     cd dispatcher
     sudo docker stop dispatcher; sudo docker rm dispatcher ; sudo docker rmi dispatcher
-    sudo docker build -t dispatcher . ; sudo docker run  -d -p 80:80 --name dispatcher dispatcher
+    sudo docker build -t dispatcher . ; sudo docker run  -d -p 80:80 --network=main --name dispatcher dispatcher
     cd ..
     
 

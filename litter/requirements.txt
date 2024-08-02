@@ -1,4 +1,5 @@
 fastapi
+fastapi[standard]
 fastapi_versioning
 pydantic
 pymongo
