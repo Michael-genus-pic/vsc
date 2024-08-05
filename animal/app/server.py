@@ -17,6 +17,26 @@ subApp.mongodb_client = MongoClient(config['db']['url'])
 db = subApp.mongodb_client.testDB
 collection = db.Animal
 
+
+
+@subApp.get(
+    "/",
+    description="find all animal",
+    response_model=list[Animal],
+    responses={404: {"model": Message}},
+)
+@version(1)
+def getAll() -> list[Animal]:
+    animalsFound = list(collection.find({}))
+    if animalsFound:
+        return [mongoToJson(animal) for animal in animalsFound]
+    raise HTTPException(
+        status_code=404,
+        detail={"msg": "No Animal Found"},
+    )
+
+
+
 @subApp.get(
     "/ident/{animalIdent}",
     description="find the single animal with litter id",
@@ -43,6 +63,8 @@ def getAnimalById(animalIdent: int) -> Animal:
 @version(1)
 def getAnimalByLitterId(litterId: int) -> list[Animal]:
     animalsFound = list(collection.find({"litterId": litterId}))
+    print (animalsFound)
+    print (len(animalsFound))
     if animalsFound:
         return [mongoToJson(animal) for animal in animalsFound]
     raise HTTPException(

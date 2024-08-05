@@ -9,6 +9,22 @@ import requests
 
 
 class animal_v1_0:
+    def Getall (  ):
+        response = requests.get(f'http://127.0.0.1/animal/v1_0/')
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+    def Addanimal ( payload ):
+        response = requests.post(f'http://127.0.0.1/animal/v1_0/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
     def Getanimalbyid ( animalIdent ):
         response = requests.get(f'http://127.0.0.1/animal/v1_0/ident/{animalIdent}')
         if response.status_code  != 200:
@@ -25,16 +41,24 @@ class animal_v1_0:
         else:
             return json.loads(response._content.decode('utf-8'))
 
-    def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/v1_0/', json=payload)
+
+class animal_v2_0:
+    def Getall (  ):
+        response = requests.get(f'http://127.0.0.1/animal/v2_0/')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
         else:
             return json.loads(response._content.decode('utf-8'))
 
+    def Addanimal ( payload ):
+        response = requests.post(f'http://127.0.0.1/animal/v2_0/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
 
-class animal_v2_0:
     def Getanimalbyid ( animalIdent ):
         response = requests.get(f'http://127.0.0.1/animal/v2_0/ident/{animalIdent}')
         if response.status_code  != 200:
@@ -51,16 +75,24 @@ class animal_v2_0:
         else:
             return json.loads(response._content.decode('utf-8'))
 
-    def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/v2_0/', json=payload)
+
+class animal_latest:
+    def Getall (  ):
+        response = requests.get(f'http://127.0.0.1/animal/latest/')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
         else:
             return json.loads(response._content.decode('utf-8'))
 
+    def Addanimal ( payload ):
+        response = requests.post(f'http://127.0.0.1/animal/latest/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
 
-class animal_latest:
     def Getanimalbyid ( animalIdent ):
         response = requests.get(f'http://127.0.0.1/animal/latest/ident/{animalIdent}')
         if response.status_code  != 200:
@@ -77,16 +109,24 @@ class animal_latest:
         else:
             return json.loads(response._content.decode('utf-8'))
 
-    def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/latest/', json=payload)
+
+class litter_v1_0:
+    def Getall (  ):
+        response = requests.get(f'http://127.0.0.1/litter/v1_0/')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
         else:
             return json.loads(response._content.decode('utf-8'))
 
+    def AddANewLitter ( payload ):
+        response = requests.post(f'http://127.0.0.1/litter/v1_0/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
 
-class litter_v1_0:
     def Getlitterbyid ( litterId ):
         response = requests.get(f'http://127.0.0.1/litter/v1_0/litterId/{litterId}')
         if response.status_code  != 200:
@@ -111,14 +151,6 @@ class litter_v1_0:
         else:
             return json.loads(response._content.decode('utf-8'))
 
-    def AddANewLitter ( payload ):
-        response = requests.post(f'http://127.0.0.1/litter/v1_0/', json=payload)
-        if response.status_code  != 200:
-            message = (json.loads(response._content.decode('utf-8')))
-            raise Exception( f'{response.status_code}: {message}')
-        else:
-            return json.loads(response._content.decode('utf-8'))
-
     def AddPigletToLitter ( litterId, pigletIdent ):
         response = requests.put(f'http://127.0.0.1/litter/v1_0/litterId/{litterId}/pigletIdent/{pigletIdent}')
         if response.status_code  != 200:
@@ -129,6 +161,22 @@ class litter_v1_0:
 
 
 class litter_latest:
+    def Getall (  ):
+        response = requests.get(f'http://127.0.0.1/litter/latest/')
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+    def AddANewLitter ( payload ):
+        response = requests.post(f'http://127.0.0.1/litter/latest/', json=payload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
     def Getlitterbyid ( litterId ):
         response = requests.get(f'http://127.0.0.1/litter/latest/litterId/{litterId}')
         if response.status_code  != 200:
@@ -147,14 +195,6 @@ class litter_latest:
 
     def Getlittermatesbylitterid ( litterId ):
         response = requests.get(f'http://127.0.0.1/litter/latest/litterMates/litterId/{litterId}')
-        if response.status_code  != 200:
-            message = (json.loads(response._content.decode('utf-8')))
-            raise Exception( f'{response.status_code}: {message}')
-        else:
-            return json.loads(response._content.decode('utf-8'))
-
-    def AddANewLitter ( payload ):
-        response = requests.post(f'http://127.0.0.1/litter/latest/', json=payload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')

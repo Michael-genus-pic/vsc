@@ -20,6 +20,18 @@ db = subApp.mongodb_client.testDB
 collection = db.Litter
 
 
+@subApp.get("/", response_model=list[Litter], responses={404: {"model": Message}})
+@version(1)
+def getAll() -> list[Litter]:
+    littersFound = collection.find({})
+    if littersFound:
+        return [mongoToJson(litter) for litter in littersFound]
+    raise HTTPException(
+        status_code=404,
+        detail={"msg": f"No Litter Found"},
+    )
+
+
 @subApp.get(
     "/litterId/{litterId}", response_model=Litter, responses={404: {"model": Message}}
 )
