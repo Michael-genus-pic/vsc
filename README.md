@@ -1,8 +1,9 @@
-* 4 dockers
+* 5 dockers
   * animal api
   * litter api
   * notification api
-  * queueprocessor 
+  * queueprocessor
+  * dispatcher accessor to the apis
 
 `commands.txt` shows all commands
 
