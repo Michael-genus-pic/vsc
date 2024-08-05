@@ -16,3 +16,4 @@ api calls:
   * call animal.Getanimalbyid
 
 
+![Components](components.png)
