@@ -5,7 +5,7 @@ import requests
 import json
 
 
-from utils.config import config
+from utils.config import config, hostName
 
 apis = config['apis']
 
@@ -27,40 +27,47 @@ endOfFunction = "\
             return json.loads(response._content.decode('utf-8'))\n\n\
 "
 
-
-fileContent += "import json\nimport requests\n\n"
-for api, detail in apis.items():
-    rootResponse = requests.get(f"{detail['url']}/openapi.json")
-    openApiObj = json.loads(rootResponse._content.decode('utf-8'))
-    
-    for rootPath, pathDetail in openApiObj['paths'].items():
-        if pathDetail['get']['tags'] != ['Versions']:
-            continue
-        empty, apiVersion, apiFileName = rootPath.split('/')
-        response = requests.get(f"{detail['url']}/{apiVersion}/{apiFileName}")
-        specPaths = json.loads(response._content.decode('utf-8'))['paths']
-        fileContent += f"\nclass {api}_{apiVersion}:\n"
-        for path, pathDetail in specPaths.items():
-            for method, actionDetail in pathDetail.items():
-                functionName = actionDetail['summary'].replace(" ", '')
-                params = []
-                payload = False
-                if 'parameters' in actionDetail:
-                    for thisParam in actionDetail['parameters']:
-                        params.append(thisParam['name'])
-                if 'requestBody' in actionDetail:
-                    payload = True
-                functionParamList = list(params)
-                if payload: functionParamList.append('payload')
-                functionParam = ", ".join(list(functionParamList))
-                fileContent += f"    def {functionName} ( {functionParam} ):\n"
-                fullPath = f"{detail['url']}/{apiVersion}{path}"
-                fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
-                fileContent += endOfFunction
-
-file = open("utils/apiFunctions.py", "w")
-file.write(fileContent)
-file.close()
+for dockerOption in (False, True ):
+    print (f"=== Generating functions for {'docker' if dockerOption else 'local'} use ===")
+    fileContent += "import json\nimport requests\n\n"
+    for api, detail in apis.items():
+        print (f"Pulling from {api}:")
+        rootResponse = requests.get(f"http://{hostName}/{api}/openapi.json")
+        openApiObj = json.loads(rootResponse._content.decode('utf-8'))
+        openApiObj['paths']['/latest/openapi.json'] = {"get":{"tags":['Versions']}}
+        for rootPath, pathDetail in openApiObj['paths'].items():
+            if pathDetail['get']['tags'] != ['Versions']:
+                continue
+            empty, apiVersion, apiFileName = rootPath.split('/')
+            print (f"  Version {apiVersion}:")
+            response = requests.get(f"http://{hostName}/{api}/{apiVersion}/{apiFileName}")
+            specPaths = json.loads(response._content.decode('utf-8'))['paths']
+            fileContent += f"\nclass {api}_{apiVersion}:\n"
+            for path, pathDetail in specPaths.items():
+                for method, actionDetail in pathDetail.items():
+                    functionName = actionDetail['summary'].replace(" ", '')
+                    print (f"    Function {functionName}")
+                    params = []
+                    payload = False
+                    if 'parameters' in actionDetail:
+                        for thisParam in actionDetail['parameters']:
+                            params.append(thisParam['name'])
+                    if 'requestBody' in actionDetail:
+                        payload = True
+                    functionParamList = list(params)
+                    if payload: functionParamList.append('payload')
+                    functionParam = ", ".join(list(functionParamList))
+                    fileContent += f"    def {functionName} ( {functionParam} ):\n"
+                    fullPath = f"http://{api}:{detail['port']}/{api}/{apiVersion}{path}" \
+                        if dockerOption else \
+                        f"http://{hostName}/{api}/{apiVersion}{path}"
+                    
+                    fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
+                    fileContent += endOfFunction
+    tier = '_docker' if dockerOption else ''
+    file = open(f"utils/apiFunctions{tier}.py", "w")
+    file.write(fileContent)
+    file.close()
 
     
 

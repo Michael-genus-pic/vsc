@@ -12,12 +12,32 @@ import utils.apiFunctions as apiFunctions
 
 
 
-app = FastAPI(docs_url="/docs", title = 'Animal')
-app.mongodb_client = MongoClient(config['db']['url'])
-db = app.mongodb_client.testDB
+subApp = FastAPI(docs_url="/docs", title = 'Animal')
+subApp.mongodb_client = MongoClient(config['db']['url'])
+db = subApp.mongodb_client.testDB
 collection = db.Animal
 
-@app.get(
+
+
+@subApp.get(
+    "/",
+    description="find all animal",
+    response_model=list[Animal],
+    responses={404: {"model": Message}},
+)
+@version(1)
+def getAll() -> list[Animal]:
+    animalsFound = list(collection.find({}))
+    if animalsFound:
+        return [mongoToJson(animal) for animal in animalsFound]
+    raise HTTPException(
+        status_code=404,
+        detail={"msg": "No Animal Found"},
+    )
+
+
+
+@subApp.get(
     "/ident/{animalIdent}",
     description="find the single animal with litter id",
     response_model=Animal,
@@ -34,7 +54,7 @@ def getAnimalById(animalIdent: int) -> Animal:
     )
 
 
-@app.get(
+@subApp.get(
     "/litterId/{litterId}",
     description="find all the animals with litter id",
     response_model=list[Animal],
@@ -43,6 +63,8 @@ def getAnimalById(animalIdent: int) -> Animal:
 @version(1)
 def getAnimalByLitterId(litterId: int) -> list[Animal]:
     animalsFound = list(collection.find({"litterId": litterId}))
+    print (animalsFound)
+    print (len(animalsFound))
     if animalsFound:
         return [mongoToJson(animal) for animal in animalsFound]
     raise HTTPException(
@@ -50,7 +72,7 @@ def getAnimalByLitterId(litterId: int) -> list[Animal]:
         detail={"msg": f"Animals not found with litterId {litterId}"},
     )
 
-@app.post(
+@subApp.post(
     "/",
     description="Insert a new Animal",
     response_model=Animal,
@@ -71,7 +93,7 @@ def addAnimal(animal: RawAnimal) -> Animal:
 
 
 
-@app.post(
+@subApp.post(
     "/",
     description="Insert a new Animal",
     response_model=Animal,
@@ -87,8 +109,12 @@ def addAnimal(animal: RawAnimal) -> Animal:
         )
     insertResult = collection.insert_one(animal.model_dump())
     insertedAnimal = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
-    enqueueApiCall(apiFunctions.litter_v1_0.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
+    enqueueApiCall(apiFunctions.litter_latest.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
     return mongoToJson(insertedAnimal)
 
 
-app = VersionedFastAPI(app, enable_latest=True)
+subApp = VersionedFastAPI(subApp, enable_latest=True)
+
+app= FastAPI()
+
+app.mount('/animal', subApp)
