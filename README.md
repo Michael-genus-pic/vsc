@@ -1,9 +1,11 @@
 * 5 dockers
-  * animal api
-  * litter api
-  * notification api
-  * queueprocessor
-  * dispatcher accessor to the apis
+  * animal api (api to access animals)
+  * litter api (api to access litters)
+  * notification api (api to add new queue)
+  * queueprocessor (standalone, queue processor)
+  * dispatcher accessor to the apis (nginx gateway, html and dispatching traffic to api's)
+
+MVC not implemented in APIs
 
 `commands.txt` shows all commands
 
