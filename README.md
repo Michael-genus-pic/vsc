@@ -20,3 +20,7 @@ api calls:
 
 
 ![Components](components.png)
+
+Once implemented, http://HOSTNAME/docs should present the page with latest swagger 
+
+![docs](docs.png)
