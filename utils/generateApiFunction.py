@@ -33,6 +33,7 @@ for dockerOption in (False, True ):
     for api, detail in apis.items():
         print (f"Pulling from {api}:")
         rootResponse = requests.get(f"http://{hostName}/{api}/openapi.json")
+        print (f"http://{hostName}/{api}/openapi.json")
         openApiObj = json.loads(rootResponse._content.decode('utf-8'))
         openApiObj['paths']['/latest/openapi.json'] = {"get":{"tags":['Versions']}}
         for rootPath, pathDetail in openApiObj['paths'].items():
@@ -62,7 +63,9 @@ for dockerOption in (False, True ):
                         if dockerOption else \
                         f"http://{hostName}/{api}/{apiVersion}{path}"
                     
-                    fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
+                    if payload:
+                        fileContent += f"        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))\n"
+                    fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=realPayload' if payload else ''})\n"
                     fileContent += endOfFunction
     tier = '_docker' if dockerOption else ''
     file = open(f"utils/apiFunctions{tier}.py", "w")

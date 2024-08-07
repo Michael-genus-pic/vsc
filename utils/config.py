@@ -9,6 +9,6 @@ config = {
         "animal": {"port": 3000},
         "litter": {"port": 3001},
         "notification": {"port": 3002},
-        "versioning": {"port": 3003}
+        "event": {"port": 3003}
     }
 }

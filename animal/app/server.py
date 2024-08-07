@@ -6,7 +6,7 @@ from fastapi_versioning import VersionedFastAPI, version
 
 from utils.functions import mongoToJson
 from utils.enqueueFunctions import enqueueApiCall
-from utils.apiTypes import Animal, Message, RawAnimal
+from utils.apiTypes import Animal, Message, RawAnimal, Event
 from utils.config import config
 import utils.apiFunctions as apiFunctions
 
@@ -112,6 +112,32 @@ def addAnimal(animal: RawAnimal) -> Animal:
     enqueueApiCall(apiFunctions.litter_latest.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
     return mongoToJson(insertedAnimal)
 
+
+
+@subApp.put(
+    "/addEvent/{ident}",
+    description="add event to animal",
+    response_model=Animal,
+    responses={400: {"model": Message}},
+)
+@version(2)
+def addEvent(ident: int, event: Event) -> Animal:
+    print (ident, event)
+    existingAnimal = collection.find_one({"ident": ident})
+    if existingAnimal is  None:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"Animal not found with ident {ident}"},
+        )
+    if 'events' not in existingAnimal or existingAnimal['events'] is None:
+        existingAnimal['events'] = []
+    existingAnimal['events'].append(event.model_dump())
+    
+    eventList = existingAnimal['events']
+    collection.update_one({"ident": ident}, {"$set": {"events": eventList}})
+    updatedAnimal = collection.find_one({"ident": ident})
+    return mongoToJson(updatedAnimal)
+    
 
 subApp = VersionedFastAPI(subApp, enable_latest=True)
 

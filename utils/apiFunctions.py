@@ -18,7 +18,8 @@ class animal_v1_0:
             return json.loads(response._content.decode('utf-8'))
 
     def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/v1_0/', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/animal/v1_0/', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -52,7 +53,8 @@ class animal_v2_0:
             return json.loads(response._content.decode('utf-8'))
 
     def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/v2_0/', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/animal/v2_0/', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -75,6 +77,15 @@ class animal_v2_0:
         else:
             return json.loads(response._content.decode('utf-8'))
 
+    def Addevent ( ident, payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.put(f'http://127.0.0.1/animal/v2_0/addEvent/{ident}', json=realPayload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
 
 class animal_latest:
     def Getall (  ):
@@ -86,7 +97,8 @@ class animal_latest:
             return json.loads(response._content.decode('utf-8'))
 
     def Addanimal ( payload ):
-        response = requests.post(f'http://127.0.0.1/animal/latest/', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/animal/latest/', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -109,6 +121,15 @@ class animal_latest:
         else:
             return json.loads(response._content.decode('utf-8'))
 
+    def Addevent ( ident, payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.put(f'http://127.0.0.1/animal/latest/addEvent/{ident}', json=realPayload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
 
 class litter_v1_0:
     def Getall (  ):
@@ -120,7 +141,8 @@ class litter_v1_0:
             return json.loads(response._content.decode('utf-8'))
 
     def AddANewLitter ( payload ):
-        response = requests.post(f'http://127.0.0.1/litter/v1_0/', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/litter/v1_0/', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -170,7 +192,8 @@ class litter_latest:
             return json.loads(response._content.decode('utf-8'))
 
     def AddANewLitter ( payload ):
-        response = requests.post(f'http://127.0.0.1/litter/latest/', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/litter/latest/', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -212,7 +235,8 @@ class litter_latest:
 
 class notification_v1_0:
     def Addnewqueue ( payload ):
-        response = requests.post(f'http://127.0.0.1/notification/v1_0/queue', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/notification/v1_0/queue', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -222,7 +246,8 @@ class notification_v1_0:
 
 class notification_latest:
     def Addnewqueue ( payload ):
-        response = requests.post(f'http://127.0.0.1/notification/latest/queue', json=payload)
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/notification/latest/queue', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -230,9 +255,18 @@ class notification_latest:
             return json.loads(response._content.decode('utf-8'))
 
 
-class versioning_v1_0:
-    def Apimessage (  ):
-        response = requests.get(f'http://127.0.0.1/versioning/v1_0/ep')
+class event_v1_0:
+    def Addontestevent ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/event/v1_0/onTest', json=realPayload)
+        if response.status_code  != 200:
+            message = (json.loads(response._content.decode('utf-8')))
+            raise Exception( f'{response.status_code}: {message}')
+        else:
+            return json.loads(response._content.decode('utf-8'))
+
+    def Geteventsbyident ( ident ):
+        response = requests.post(f'http://127.0.0.1/event/v1_0/ident/{ident}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
@@ -240,19 +274,18 @@ class versioning_v1_0:
             return json.loads(response._content.decode('utf-8'))
 
 
-class versioning_v2_0:
-    def Apimessage (  ):
-        response = requests.get(f'http://127.0.0.1/versioning/v2_0/ep')
+class event_latest:
+    def Addontestevent ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/event/latest/onTest', json=realPayload)
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
         else:
             return json.loads(response._content.decode('utf-8'))
 
-
-class versioning_latest:
-    def Apimessage (  ):
-        response = requests.get(f'http://127.0.0.1/versioning/latest/ep')
+    def Geteventsbyident ( ident ):
+        response = requests.post(f'http://127.0.0.1/event/latest/ident/{ident}')
         if response.status_code  != 200:
             message = (json.loads(response._content.decode('utf-8')))
             raise Exception( f'{response.status_code}: {message}')
