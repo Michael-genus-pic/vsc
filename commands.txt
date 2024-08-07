@@ -1,53 +1,53 @@
 
-sudo docker network create main
+docker network create main
 
 #== animal == 
     cd animal
-    sudo docker stop animal; sudo docker rm animal ; sudo docker rmi animal
+    docker stop animal; docker rm animal ; docker rmi animal
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t animal . 
-    sudo docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal animal
+    docker build -t animal . 
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal animal
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== litter == 
     cd litter
-    sudo docker stop litter; sudo docker rm litter ; sudo docker rmi litter
+    docker stop litter; docker rm litter ; docker rmi litter
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t litter . 
-    sudo docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter litter
+    docker build -t litter . 
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter litter
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== notification == 
     cd notification
-    sudo docker stop notification; sudo docker rm notification ; sudo docker rmi notification
+    docker stop notification; docker rm notification ; docker rmi notification
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t notification . 
-    sudo docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification notification
+    docker build -t notification . 
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification notification
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== versioning == 
     cd versioning
-    sudo docker stop versioning; sudo docker rm versioning ; sudo docker rmi versioning
+    docker stop versioning; docker rm versioning ; docker rmi versioning
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t versioning . 
-    sudo docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name versioning versioning
+    docker build -t versioning . 
+    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name versioning versioning
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== queueprocessor == 
     cd queueprocessor
-    sudo docker stop queueprocessor; sudo docker rm queueprocessor ; sudo docker rmi queueprocessor
+    docker stop queueprocessor; docker rm queueprocessor ; docker rmi queueprocessor
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t queueprocessor . 
-    sudo docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name queueprocessor queueprocessor
+    docker build -t queueprocessor . 
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name queueprocessor queueprocessor
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== dispatcher == 
     cd dispatcher
-    sudo docker stop dispatcher; sudo docker rm dispatcher ; sudo docker rmi dispatcher
+    docker stop dispatcher; docker rm dispatcher ; docker rmi dispatcher
     python generateNginxConf.py
     rm  utils ; cp -r ../utils/ .
-    sudo docker build -t dispatcher . 
-    sudo docker run  -d -p 80:80 --network=main --add-host=host.docker.internal:host-gateway --name dispatcher dispatcher
+    docker build -t dispatcher . 
+    docker run  -d -p 80:80 --network=main --add-host=host.docker.internal:host-gateway --name dispatcher dispatcher
     rm -rf utils ; ln -s ../utils utils
     cd ..
     
@@ -55,15 +55,15 @@ sudo docker network create main
 
 == utils ==
 go to docker bash
-    sudo docker exec -it <container> bash
+    docker exec -it <container> bash
 check docker log
-    sudo docker logs -f <container>
+    docker logs -f <container>
 
 build zip <file> include <folder>
     zip -r <file> <folder> 
 
 dump file system: 
-    sudo docker export -o <File>.tar <container>
+    docker export -o <File>.tar <container>
 
 == start locally ==
     fastapi run app/server.py --reload --port 2000
@@ -71,16 +71,16 @@ dump file system:
 
 == network ==
 see networks
-    sudo docker network ls 
+    docker network ls 
 create network
-    sudo docker network create <NAME>
+    docker network create <NAME>
 delete network 
-    sudo docker network rm <NAME>
+    docker network rm <NAME>
 see network containers
-    sudo docker network inspect <NETWORKNAME> -f "{{json .Containers}}"
+    docker network inspect <NETWORKNAME> -f "{{json .Containers}}"
 connect container into network 
-    sudo docker netowrk connect <NETWORK> <CONTAINER>
+    docker netowrk connect <NETWORK> <CONTAINER>
 disconnect container from network 
-    sudo docker netowrk disconnect <NETWORK> <CONTAINER>    
+    docker netowrk disconnect <NETWORK> <CONTAINER>    
 check network container is on 
-    sudo docker inspect container -f "{{json .NetworkSettings.Networks }}"
+    docker inspect container -f "{{json .NetworkSettings.Networks }}"
