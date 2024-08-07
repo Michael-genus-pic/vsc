@@ -20,19 +20,26 @@ fileContent = "\
 
 
 endOfFunction = "\
-        if response.status_code  != 200:\n\
-            message = (json.loads(response._content.decode('utf-8')))\n\
-            raise Exception( f'{response.status_code}: {message}')\n\
-        else:\n\
-            return json.loads(response._content.decode('utf-8'))\n\n\
+def httpToJson(response):\n\
+    if response.status_code  != 200:\n\
+        message = (json.loads(response._content.decode('utf-8')))\n\
+        raise Exception( f'{response.status_code}: {message}')\n\
+    else:\n\
+        return json.loads(response._content.decode('utf-8'))\n\n\
 "
+
+callProcessor = "\
+        return httpToJson(response)\n\n"
 
 for dockerOption in (False, True ):
     print (f"=== Generating functions for {'docker' if dockerOption else 'local'} use ===")
     fileContent += "import json\nimport requests\n\n"
+
+    fileContent += endOfFunction
     for api, detail in apis.items():
         print (f"Pulling from {api}:")
         rootResponse = requests.get(f"http://{hostName}/{api}/openapi.json")
+        print (f"http://{hostName}/{api}/openapi.json")
         openApiObj = json.loads(rootResponse._content.decode('utf-8'))
         openApiObj['paths']['/latest/openapi.json'] = {"get":{"tags":['Versions']}}
         for rootPath, pathDetail in openApiObj['paths'].items():
@@ -62,8 +69,10 @@ for dockerOption in (False, True ):
                         if dockerOption else \
                         f"http://{hostName}/{api}/{apiVersion}{path}"
                     
-                    fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=payload' if payload else ''})\n"
-                    fileContent += endOfFunction
+                    if payload:
+                        fileContent += f"        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))\n"
+                    fileContent += f"        response = requests.{method}(f'{fullPath}'{', json=realPayload' if payload else ''})\n"
+                    fileContent += callProcessor
     tier = '_docker' if dockerOption else ''
     file = open(f"utils/apiFunctions{tier}.py", "w")
     file.write(fileContent)

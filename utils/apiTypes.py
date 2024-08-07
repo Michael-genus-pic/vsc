@@ -9,8 +9,6 @@ class RawAnimal(BaseModel):
     birthDate: datetime
     farmId: int = None
 
-class Animal(RawAnimal): 
-    id: str
 
 
 class RawLitter(BaseModel): 
@@ -22,8 +20,6 @@ class Litter(RawLitter):
     id: str    
     piglets: list[int] = []
     
-class LitterWithLitterMates(Litter):
-    litterMates: list[Animal]
 
 class Message(BaseModel):
     msg: str
@@ -37,3 +33,21 @@ class QueueData(BaseModel):
     destination: str
     function: str
     params: Optional[Dict]
+
+class OnTest(BaseModel):
+    ident: int
+    testDate: datetime
+    weight: float
+    score: int
+
+class Event(BaseModel):
+    id: str
+    eventName: str
+    eventData: OnTest
+
+class Animal(RawAnimal): 
+    id: str
+    events: list[Event] = []
+
+class LitterWithLitterMates(Litter):
+    litterMates: list[Animal] 

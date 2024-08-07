@@ -25,12 +25,12 @@ docker network create main
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification notification
     rm -rf utils ; ln -s ../utils utils
     cd ..
-#== versioning == 
-    cd versioning
-    docker stop versioning; docker rm versioning ; docker rmi versioning
+#== event == 
+    cd event
+    docker stop event; docker rm event ; docker rmi event
     rm  utils ; cp -r ../utils/ .
-    docker build -t versioning . 
-    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name versioning versioning
+    docker build -t event . 
+    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event event
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== queueprocessor == 
@@ -51,7 +51,8 @@ docker network create main
     rm -rf utils ; ln -s ../utils utils
     cd ..
     
-
+#== checking containers
+    docker ps -a
 
 == utils ==
 go to docker bash

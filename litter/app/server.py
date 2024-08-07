@@ -112,8 +112,9 @@ def addPigletToLitter(litterId: int, pigletIdent: int) -> Litter:
             detail={"msg": f"Litter not found with litterId {litterId}"},
         )
 
-    animal = apiFunctions.animal_latest.Getanimalbyid(pigletIdent)
-    if animal is None:
+    try:
+        apiFunctions.animal_latest.Getanimalbyid(pigletIdent)
+    except:
         raise HTTPException(
             status_code=400,
             detail={"msg": f"piglet {pigletIdent} not found "},
