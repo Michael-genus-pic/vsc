@@ -6,7 +6,7 @@
   * queueprocessor (standalone, queue processor)
   * dispatcher accessor to the apis (nginx gateway, html and dispatching traffic to api's)
 
-MVC not implemented in APIs
+MVC can be implemented in APIs
 
 `commands.txt` shows all commands
 
