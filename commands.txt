@@ -50,7 +50,6 @@ docker network create main
     docker run  -d -p 80:80 --network=main --add-host=host.docker.internal:host-gateway --name dispatcher dispatcher
     rm -rf utils ; ln -s ../utils utils
     cd ..
-    
 #== checking containers
     docker ps -a
 

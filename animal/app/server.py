@@ -63,8 +63,6 @@ def getAnimalById(animalIdent: int) -> Animal:
 @version(1)
 def getAnimalByLitterId(litterId: int) -> list[Animal]:
     animalsFound = list(collection.find({"litterId": litterId}))
-    print (animalsFound)
-    print (len(animalsFound))
     if animalsFound:
         return [mongoToJson(animal) for animal in animalsFound]
     raise HTTPException(

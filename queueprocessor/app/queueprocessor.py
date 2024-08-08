@@ -20,7 +20,7 @@ queueLogCollection = mongoClient.testDB.queueLogs
 
 def runQueueMessage() -> None:
     result = {"processed": 0, "success": [], "reQueued": [], "stopped": []}
-    channels = {'apiFunction': apiFunctionProcessor}
+    channels = {'apiFunction': apiFunctionProcessor, 'scheduled': scheduled}
     for channel, runFunc in channels.items():
         job =  queue.next(channel=channel)
         while job is not None :
@@ -49,6 +49,15 @@ def runQueueMessage() -> None:
 def apiFunctionProcessor(payload):
     action = getattr(getattr(apiFunctions, payload['destination']), payload['function'])
     response = action(**payload['params'])
+    
+def scheduled(payload):
+    queue.put({"payload":payload}, delay=120, channel="scheduled")
+    
+    mongodb_client = MongoClient(config['db']['url'])
+    db = mongodb_client.testDB
+    collection = db.scheduledRun
+    currentDate = datetime.datetime.now()
+    collection.insert_one({'executed': currentDate, "payload":payload})
     
     
 
