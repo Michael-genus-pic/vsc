@@ -28,6 +28,11 @@ cross service calls:
 
 ![Components](components.png)
 
-Once implemented, http://HOSTNAME/docs should present the page with latest swagger 
+Once implemented, http://HOSTNAME/ should present demo page
+
+![homepage](homepage.png)
+it allows add event to animal 
+
+to add animal/litters use swagger http://HOSTNAME/docs
 
 ![docs](docs.png)
