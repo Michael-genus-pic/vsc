@@ -51,7 +51,7 @@ async def addOnTestEvent(onTest: OnTest) -> Event:
     return eventObj
 
 
-@subApp.post("/ident/{ident}",     
+@subApp.get("/ident/{ident}",     
     description="get event by ident",
     response_model=list[Event],
     responses={400: {"model": Message}},)

@@ -157,7 +157,7 @@ class event_v1_0:
         return httpToJson(response)
 
     def Geteventsbyident ( ident ):
-        response = requests.post(f'http://127.0.0.1/event/v1_0/ident/{ident}')
+        response = requests.get(f'http://127.0.0.1/event/v1_0/ident/{ident}')
         return httpToJson(response)
 
 
@@ -168,6 +168,6 @@ class event_latest:
         return httpToJson(response)
 
     def Geteventsbyident ( ident ):
-        response = requests.post(f'http://127.0.0.1/event/latest/ident/{ident}')
+        response = requests.get(f'http://127.0.0.1/event/latest/ident/{ident}')
         return httpToJson(response)
 
