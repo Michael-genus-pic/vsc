@@ -1,1 +1,18 @@
-This is supposed to be the home page, to check api docs please use <a href="/docs" > docs </a>
+<script src = 'index.js' ></script>
+<body onload="init()">
+this is home page, for docs, check out <a href="/docs">/docs</a>
+<div> Animals <button onclick='refreshAnimal()'>reload</button></div>
+<div id="animalList"></div>
+<div> Litters <button onclick='refreshLitter()'>reload</button> </div>
+<div id="litterList"></div>
+<div>events</div>
+<div id = 'events'>
+    OnTest<br>
+    ident <select id='ident' ></select><br>
+    testDate: <input id="testDate" type="date"/><br>
+    weight: <input id="weight" type="number"/><br>
+    score: <input id="score" type="number"/><br>
+    <button onclick="addEvent()">Add</button>
+</div>
+
+</body>
