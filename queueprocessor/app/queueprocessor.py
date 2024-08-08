@@ -19,9 +19,9 @@ queueLogCollection = mongoClient.testDB.queueLogs
 
 
 def runQueueMessage() -> None:
-    result = {"processed": 0, "success": [], "reQueued": [], "stopped": []}
     channels = {'apiFunction': apiFunctionProcessor, 'scheduled': scheduled}
     for channel, runFunc in channels.items():
+        result = {"processed": 0, "success": [], "reQueued": [], "stopped": []}
         job =  queue.next(channel=channel)
         while job is not None :
             result['processed'] = result["processed"] + 1
