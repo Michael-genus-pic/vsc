@@ -51,7 +51,7 @@ def apiFunctionProcessor(payload):
     response = action(**payload['params'])
     
 def scheduled(payload):
-    queue.put({"payload":payload}, delay=120, channel="scheduled")
+    queue.put(payload, delay=payload['delay'], channel="scheduled")
     
     mongodb_client = MongoClient(config['db']['url'])
     db = mongodb_client.testDB
