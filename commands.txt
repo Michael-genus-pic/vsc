@@ -3,34 +3,38 @@ docker network create main
 
 #== animal == 
     cd animal
-    docker stop animal; docker rm animal ; docker rmi animal
+    docker stop animal1; docker rm animal1 ; docker stop animal2; docker rm animal2 ; docker rmi animal
     rm  utils ; cp -r ../utils/ .
     docker build -t animal . 
-    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal animal
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal1 animal
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal2 animal
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== litter == 
     cd litter
-    docker stop litter; docker rm litter ; docker rmi litter
+    docker stop litter1; docker rm litter1 ; docker stop litter2; docker rm litter2 ; docker rmi animal
     rm  utils ; cp -r ../utils/ .
     docker build -t litter . 
-    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter litter
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter1 litter
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter2 litter
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== notification == 
     cd notification
-    docker stop notification; docker rm notification ; docker rmi notification
+    docker stop notification1; docker rm notification1 ; docker stop notification2; docker rm notification2 ; docker rmi notification
     rm  utils ; cp -r ../utils/ .
     docker build -t notification . 
-    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification notification
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification1 notification
+    docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification2 notification
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== event == 
     cd event
-    docker stop event; docker rm event ; docker rmi event
+    docker stop event1; docker rm event1 ; docker stop event2; docker rm event2 ; docker rmi event
     rm  utils ; cp -r ../utils/ .
     docker build -t event . 
-    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event event
+    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event1 event
+    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event2 event
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== queueprocessor == 

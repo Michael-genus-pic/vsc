@@ -42,10 +42,10 @@ function init(){
 
 
 function refreshAnimal() {
+    domNode = document.getElementById("animalList")
+    domNode.innerHTML = ''
     ajaxCall({"method": "GET", "url": '/animal/v1_0/'}, 
         function (data){
-            domNode = document.getElementById("animalList")
-            domNode.innerHTML = ''
             data.forEach (function (animal){
                 text = "ident: "+animal.ident+
                 " birthDate:"+animal.birthDate+
@@ -69,11 +69,10 @@ function refreshAnimal() {
 }
 
 function refreshLitter() {
+    domNode = document.getElementById("litterList")
+    domNode.innerHTML = ''
     ajaxCall({"method": "GET", "url": '/litter/v1_0/'}, 
         function (data){
-            domNode = document.getElementById("litterList")
-            
-            domNode.innerHTML = ''
             data.forEach (function (litter){
                 text = "id: "+litter.litterId+
                 " sire:"+litter.sire+
