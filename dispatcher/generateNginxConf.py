@@ -7,6 +7,8 @@ from utils.config import config
 
 apis = config['apis']
 
+upstream = ""
+
 fileContent = "server {\n\
     listen       80;\n\
     location / {\n\
@@ -15,11 +17,17 @@ fileContent = "server {\n\
 
 for api, apiDetail in apis.items():
     print (f" Adding forwarding for {api} at {apiDetail['port']}")
-    fileContent += f"location /{api} {{ \n\
-        proxy_pass http://{api}:{apiDetail['port']}/{api};\n\
+    upstream += f"\
+upstream group_{api}{{\n\
+    server {api}1:{apiDetail['port']};\n\
+    server {api}2:{apiDetail['port']};\n\
+}}\n\
+    "
+    fileContent += f"    location /{api} {{ \n\
+        proxy_pass http://group_{api};\n\
     }}\n"
 
 fileContent += "}"
 file = open(f"conf.d/default.conf", "w")
-file.write(fileContent)
+file.write(f"{upstream}\n{fileContent}")
 file.close()
