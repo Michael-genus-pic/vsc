@@ -24,11 +24,11 @@
 
 -----
 DETAILS:
-* 6 dockers
-  * event api (api to access events)
-  * animal api (api to access animals)
-  * litter api (api to access litters)
-  * notification api (api to add new queue)
+* 6 docker images ( each api images is used by 2 containers )
+  * event api (api to access events) (containers event1 event2)
+  * animal api (api to access animals) (containers animal1 animal2)
+  * litter api (api to access litters) (containers litter1 litter2)
+  * notification api (api to add new queue) (containers notification1 notification2)
   * queueprocessor (standalone, queue processor)
   * dispatcher accessor to the apis (nginx gateway, html and dispatching traffic to api's)
 
