@@ -12,7 +12,7 @@ docker network create main
     cd ..
 #== litter == 
     cd litter
-    docker stop litter1; docker rm litter1 ; docker stop litter2; docker rm litter2 ; docker rmi animal
+    docker stop litter1; docker rm litter1 ; docker stop litter2; docker rm litter2 ; docker rmi litter
     rm  utils ; cp -r ../utils/ .
     docker build -t litter . 
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter1 litter
