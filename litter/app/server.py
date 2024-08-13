@@ -71,10 +71,11 @@ def getLitterBySireDam(sire: int, dam: int) -> list[Litter]:
 def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
     try:
         litter = getLitterById(litterId)
+        litter["litterMates"] = []
         litter["litterMates"] = apiFunctions.animal_latest.Getanimalbylitterid(litterId)
-        return litter
     except Exception as e:
-        raise e
+        pass
+    return litter
 
 
 @subApp.post(

@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import schedule
 
 from bson.objectid import ObjectId
-from utils.apiTypes import Message, QueueData
+from utils.apiTypes import Message
 from utils.config import config
 import utils.apiFunctions as apiFunctions
 

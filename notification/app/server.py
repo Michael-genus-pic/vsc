@@ -3,7 +3,7 @@ from mongo_queue.queue import Queue
 from pymongo import MongoClient
 import schedule
 
-from utils.apiTypes import Message, QueueData
+from utils.apiTypes import Message, ApiQueueData, ScheduleQueueData
 from utils.config import config
 import json
 import time
@@ -19,10 +19,16 @@ queue = Queue( MongoClient(config['db']['url']).testDB.queue, consumer_id="consu
 
 
 
-@subApp.post("/queue")
+@subApp.post("/apiFunction")
 @version(1)
-async def addNewQueue(info: QueueData) -> Message:
-    job = queue.put(info.model_dump())  
+async def queueApiFunction(info: ApiQueueData) -> Message:
+    job = queue.put(info.model_dump(),delay = 0, channel="apiFunction")
+    return {"msg": str(job)}
+
+@subApp.post("/scheduled")
+@version(1)
+async def queueScheduled(info: ScheduleQueueData) -> Message:
+    job = queue.put(info.model_dump(), delay = info.delay, channel="scheduled")  
     return {"msg": str(job)}
 
 

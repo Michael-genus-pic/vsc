@@ -29,10 +29,15 @@ class RunQueueResult(BaseModel):
     reQueued: int
     stopped: int
 
-class QueueData(BaseModel):
+class ApiQueueData(BaseModel):
     destination: str
     function: str
     params: Optional[Dict]
+
+class ScheduleQueueData(BaseModel):
+    delay: int
+    params: Optional[Dict]
+
 
 class OnTest(BaseModel):
     ident: int

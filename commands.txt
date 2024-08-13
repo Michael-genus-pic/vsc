@@ -2,55 +2,79 @@
 docker network create main
 
 #== animal == 
+    echo "===== ANIMAL ====="
     cd animal
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop animal1; docker rm animal1 ; docker stop animal2; docker rm animal2 ; docker rmi animal
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t animal . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal1 animal
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name animal2 animal
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== litter == 
+    echo "=====  LITTER ====="
     cd litter
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop litter1; docker rm litter1 ; docker stop litter2; docker rm litter2 ; docker rmi litter
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t litter . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter1 litter
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name litter2 litter
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== notification == 
+    echo "===== NOTIFICATION ====="
     cd notification
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop notification1; docker rm notification1 ; docker stop notification2; docker rm notification2 ; docker rmi notification
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t notification . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification1 notification
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name notification2 notification
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== event == 
+    echo "===== EVENT ====="
     cd event
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop event1; docker rm event1 ; docker stop event2; docker rm event2 ; docker rmi event
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t event . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event1 event
     docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event2 event
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== queueprocessor == 
+    echo "===== QUEUEPROCESSOR ====="
     cd queueprocessor
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop queueprocessor; docker rm queueprocessor ; docker rmi queueprocessor
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t queueprocessor . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d --network=main --add-host=host.docker.internal:host-gateway --name queueprocessor queueprocessor
     rm -rf utils ; ln -s ../utils utils
     cd ..
 #== dispatcher == 
+    echo "===== DISPATCHER ====="
     cd dispatcher
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
     docker stop dispatcher; docker rm dispatcher ; docker rmi dispatcher
     python generateNginxConf.py
     rm  utils ; cp -r ../utils/ .
+    echo "  ===== BUILDING IMAGE ====="
     docker build -t dispatcher . 
+    echo "  ===== STARTING CONTAINER ====="
     docker run  -d -p 80:80 --network=main --add-host=host.docker.internal:host-gateway --name dispatcher dispatcher
     rm -rf utils ; ln -s ../utils utils
     cd ..

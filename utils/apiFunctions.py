@@ -137,16 +137,26 @@ class litter_latest:
 
 
 class notification_v1_0:
-    def Addnewqueue ( payload ):
+    def Queueapifunction ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://127.0.0.1/notification/v1_0/queue', json=realPayload)
+        response = requests.post(f'http://127.0.0.1/notification/v1_0/apiFunction', json=realPayload)
+        return httpToJson(response)
+
+    def Queuescheduled ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/notification/v1_0/scheduled', json=realPayload)
         return httpToJson(response)
 
 
 class notification_latest:
-    def Addnewqueue ( payload ):
+    def Queueapifunction ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://127.0.0.1/notification/latest/queue', json=realPayload)
+        response = requests.post(f'http://127.0.0.1/notification/latest/apiFunction', json=realPayload)
+        return httpToJson(response)
+
+    def Queuescheduled ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/notification/latest/scheduled', json=realPayload)
         return httpToJson(response)
 
 
