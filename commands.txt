@@ -57,6 +57,10 @@ docker network create main
 #== checking containers
     docker ps -a
 
+
+
+
+
 == utils ==
 go to docker bash
     docker exec -it <container> bash
