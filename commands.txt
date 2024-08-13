@@ -88,3 +88,5 @@ disconnect container from network
     docker netowrk disconnect <NETWORK> <CONTAINER>    
 check network container is on 
     docker inspect container -f "{{json .NetworkSettings.Networks }}"
+
+
