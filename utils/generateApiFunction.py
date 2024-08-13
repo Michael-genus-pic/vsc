@@ -65,7 +65,7 @@ for dockerOption in (False, True ):
                     if payload: functionParamList.append('payload')
                     functionParam = ", ".join(list(functionParamList))
                     fileContent += f"    def {functionName} ( {functionParam} ):\n"
-                    fullPath = f"http://{api}:{detail['port']}/{api}/{apiVersion}{path}" \
+                    fullPath = f"http://host.docker.internal/{api}/{apiVersion}{path}" \
                         if dockerOption else \
                         f"http://{hostName}/{api}/{apiVersion}{path}"
                     

@@ -17,157 +17,157 @@ def httpToJson(response):
 
 class animal_v1_0:
     def Getall (  ):
-        response = requests.get(f'http://animal:3000/animal/v1_0/')
+        response = requests.get(f'http://host.docker.internal/animal/v1_0/')
         return httpToJson(response)
 
     def Addanimal ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://animal:3000/animal/v1_0/', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/animal/v1_0/', json=realPayload)
         return httpToJson(response)
 
     def Getanimalbyid ( animalIdent ):
-        response = requests.get(f'http://animal:3000/animal/v1_0/ident/{animalIdent}')
+        response = requests.get(f'http://host.docker.internal/animal/v1_0/ident/{animalIdent}')
         return httpToJson(response)
 
     def Getanimalbylitterid ( litterId ):
-        response = requests.get(f'http://animal:3000/animal/v1_0/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/animal/v1_0/litterId/{litterId}')
         return httpToJson(response)
 
 
 class animal_v2_0:
     def Getall (  ):
-        response = requests.get(f'http://animal:3000/animal/v2_0/')
+        response = requests.get(f'http://host.docker.internal/animal/v2_0/')
         return httpToJson(response)
 
     def Addanimal ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://animal:3000/animal/v2_0/', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/animal/v2_0/', json=realPayload)
         return httpToJson(response)
 
     def Getanimalbyid ( animalIdent ):
-        response = requests.get(f'http://animal:3000/animal/v2_0/ident/{animalIdent}')
+        response = requests.get(f'http://host.docker.internal/animal/v2_0/ident/{animalIdent}')
         return httpToJson(response)
 
     def Getanimalbylitterid ( litterId ):
-        response = requests.get(f'http://animal:3000/animal/v2_0/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/animal/v2_0/litterId/{litterId}')
         return httpToJson(response)
 
     def Addevent ( ident, payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.put(f'http://animal:3000/animal/v2_0/addEvent/{ident}', json=realPayload)
+        response = requests.put(f'http://host.docker.internal/animal/v2_0/addEvent/{ident}', json=realPayload)
         return httpToJson(response)
 
 
 class animal_latest:
     def Getall (  ):
-        response = requests.get(f'http://animal:3000/animal/latest/')
+        response = requests.get(f'http://host.docker.internal/animal/latest/')
         return httpToJson(response)
 
     def Addanimal ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://animal:3000/animal/latest/', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/animal/latest/', json=realPayload)
         return httpToJson(response)
 
     def Getanimalbyid ( animalIdent ):
-        response = requests.get(f'http://animal:3000/animal/latest/ident/{animalIdent}')
+        response = requests.get(f'http://host.docker.internal/animal/latest/ident/{animalIdent}')
         return httpToJson(response)
 
     def Getanimalbylitterid ( litterId ):
-        response = requests.get(f'http://animal:3000/animal/latest/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/animal/latest/litterId/{litterId}')
         return httpToJson(response)
 
     def Addevent ( ident, payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.put(f'http://animal:3000/animal/latest/addEvent/{ident}', json=realPayload)
+        response = requests.put(f'http://host.docker.internal/animal/latest/addEvent/{ident}', json=realPayload)
         return httpToJson(response)
 
 
 class litter_v1_0:
     def Getall (  ):
-        response = requests.get(f'http://litter:3001/litter/v1_0/')
+        response = requests.get(f'http://host.docker.internal/litter/v1_0/')
         return httpToJson(response)
 
     def AddANewLitter ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://litter:3001/litter/v1_0/', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/litter/v1_0/', json=realPayload)
         return httpToJson(response)
 
     def Getlitterbyid ( litterId ):
-        response = requests.get(f'http://litter:3001/litter/v1_0/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/litter/v1_0/litterId/{litterId}')
         return httpToJson(response)
 
     def Getlitterbysiredam ( sire, dam ):
-        response = requests.get(f'http://litter:3001/litter/v1_0/sire/{sire}/dam/{dam}')
+        response = requests.get(f'http://host.docker.internal/litter/v1_0/sire/{sire}/dam/{dam}')
         return httpToJson(response)
 
     def Getlittermatesbylitterid ( litterId ):
-        response = requests.get(f'http://litter:3001/litter/v1_0/litterMates/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/litter/v1_0/litterMates/litterId/{litterId}')
         return httpToJson(response)
 
     def AddPigletToLitter ( litterId, pigletIdent ):
-        response = requests.put(f'http://litter:3001/litter/v1_0/litterId/{litterId}/pigletIdent/{pigletIdent}')
+        response = requests.put(f'http://host.docker.internal/litter/v1_0/litterId/{litterId}/pigletIdent/{pigletIdent}')
         return httpToJson(response)
 
 
 class litter_latest:
     def Getall (  ):
-        response = requests.get(f'http://litter:3001/litter/latest/')
+        response = requests.get(f'http://host.docker.internal/litter/latest/')
         return httpToJson(response)
 
     def AddANewLitter ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://litter:3001/litter/latest/', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/litter/latest/', json=realPayload)
         return httpToJson(response)
 
     def Getlitterbyid ( litterId ):
-        response = requests.get(f'http://litter:3001/litter/latest/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/litter/latest/litterId/{litterId}')
         return httpToJson(response)
 
     def Getlitterbysiredam ( sire, dam ):
-        response = requests.get(f'http://litter:3001/litter/latest/sire/{sire}/dam/{dam}')
+        response = requests.get(f'http://host.docker.internal/litter/latest/sire/{sire}/dam/{dam}')
         return httpToJson(response)
 
     def Getlittermatesbylitterid ( litterId ):
-        response = requests.get(f'http://litter:3001/litter/latest/litterMates/litterId/{litterId}')
+        response = requests.get(f'http://host.docker.internal/litter/latest/litterMates/litterId/{litterId}')
         return httpToJson(response)
 
     def AddPigletToLitter ( litterId, pigletIdent ):
-        response = requests.put(f'http://litter:3001/litter/latest/litterId/{litterId}/pigletIdent/{pigletIdent}')
+        response = requests.put(f'http://host.docker.internal/litter/latest/litterId/{litterId}/pigletIdent/{pigletIdent}')
         return httpToJson(response)
 
 
 class notification_v1_0:
     def Addnewqueue ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://notification:3002/notification/v1_0/queue', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/notification/v1_0/queue', json=realPayload)
         return httpToJson(response)
 
 
 class notification_latest:
     def Addnewqueue ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://notification:3002/notification/latest/queue', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/notification/latest/queue', json=realPayload)
         return httpToJson(response)
 
 
 class event_v1_0:
     def Addontestevent ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://event:3003/event/v1_0/onTest', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/event/v1_0/onTest', json=realPayload)
         return httpToJson(response)
 
     def Geteventsbyident ( ident ):
-        response = requests.get(f'http://event:3003/event/v1_0/ident/{ident}')
+        response = requests.get(f'http://host.docker.internal/event/v1_0/ident/{ident}')
         return httpToJson(response)
 
 
 class event_latest:
     def Addontestevent ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
-        response = requests.post(f'http://event:3003/event/latest/onTest', json=realPayload)
+        response = requests.post(f'http://host.docker.internal/event/latest/onTest', json=realPayload)
         return httpToJson(response)
 
     def Geteventsbyident ( ident ):
-        response = requests.get(f'http://event:3003/event/latest/ident/{ident}')
+        response = requests.get(f'http://host.docker.internal/event/latest/ident/{ident}')
         return httpToJson(response)
 
