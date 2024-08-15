@@ -74,7 +74,8 @@ function refreshLitter() {
             data.forEach (function (litter){
                 text = "id: "+litter.litterId+
                 " sire:"+litter.sire+
-                " dam:"+litter.dam
+                " dam:"+litter.dam +
+                " piglets: [" + litter.piglets.join(' ,') +"]"
                 thisLine = document.createElement("li")
                 thisLine.innerText = text
                 litterDomNode.appendChild(thisLine)
