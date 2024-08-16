@@ -28,7 +28,7 @@ async def queueApiFunction(info: ApiQueueData) -> Message:
 @subApp.post("/scheduled")
 @version(1)
 async def queueScheduled(info: ScheduleQueueData) -> Message:
-    job = queue.put(info.model_dump(), delay = info.delay, channel="scheduled")  
+    job = queue.put(info.model_dump(), delay = 0, channel="scheduled")  
     return {"msg": str(job)}
 
 
