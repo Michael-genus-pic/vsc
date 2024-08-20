@@ -166,6 +166,11 @@ class event_v1_0:
         response = requests.post(f'http://127.0.0.1/event/v1_0/onTest', json=realPayload)
         return httpToJson(response)
 
+    def Addofftestevent ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/event/v1_0/offTest', json=realPayload)
+        return httpToJson(response)
+
     def Geteventsbyident ( ident ):
         response = requests.get(f'http://127.0.0.1/event/v1_0/ident/{ident}')
         return httpToJson(response)
@@ -175,6 +180,11 @@ class event_latest:
     def Addontestevent ( payload ):
         realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
         response = requests.post(f'http://127.0.0.1/event/latest/onTest', json=realPayload)
+        return httpToJson(response)
+
+    def Addofftestevent ( payload ):
+        realPayload = json.loads(json.dumps(payload, indent=4, sort_keys=True, default=str))
+        response = requests.post(f'http://127.0.0.1/event/latest/offTest', json=realPayload)
         return httpToJson(response)
 
     def Geteventsbyident ( ident ):

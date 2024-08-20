@@ -12,7 +12,7 @@ from utils.enqueueFunctions import enqueueApiCall
 from utils.functions import mongoToJson
 
 from fastapi_versioning import VersionedFastAPI, version
-from utils.apiTypes import OnTest, Event
+from utils.apiTypes import OnTest, Event, OffTest
 
 subApp = FastAPI(docs_url="/docs", title = 'Event')
 
@@ -48,6 +48,33 @@ async def addOnTestEvent(onTest: OnTest) -> Event:
     insertedEvent = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
     eventObj = mongoToJson(insertedEvent)
     enqueueApiCall(apiFunctions.animal_latest.Addevent, {"ident": onTest.ident, "payload":eventObj })
+    return eventObj
+
+
+@subApp.post("/offTest",     
+    description="addOffTestEvent",
+    response_model=Event,
+    responses={400: {"model": Message}},)
+@version(1)
+async def addOffTestEvent(offTest: OffTest) -> Event:
+    existingEvent = collection.find_one({"eventName": "OffTest", "eventData.ident":offTest.ident, "eventData.testDate": offTest.testDate})
+    if existingEvent is not None:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"Event already Exists with {offTest.ident} at {offTest.testDate}"},
+        )       
+    try:
+        apiFunctions.animal_latest.Getanimalbyid(offTest.ident)
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"No Animal Found with Ident {offTest.ident}"},
+        )        
+    offTestData={"eventName": "OffTest", "eventData": offTest.model_dump()}
+    insertResult = collection.insert_one(offTestData)
+    insertedEvent = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
+    eventObj = mongoToJson(insertedEvent)
+    enqueueApiCall(apiFunctions.animal_latest.Addevent, {"ident": offTest.ident, "payload":eventObj })
     return eventObj
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 from enum import Enum
-from typing import Dict, Optional, Literal
+from typing import Dict, Optional, Literal, Union
 
 class RawAnimal(BaseModel):
     ident: int
@@ -45,10 +45,18 @@ class OnTest(BaseModel):
     weight: float
     score: int
 
+class OffTest(BaseModel):
+    ident: int
+    testDate: datetime
+    weight: float
+    score: int
+    result: str
+
+
 class Event(BaseModel):
     id: str
     eventName: str
-    eventData: OnTest
+    eventData: Union[OnTest , OffTest]
 
 class Animal(RawAnimal): 
     id: str
