@@ -118,3 +118,8 @@ check network container is on
     docker inspect container -f "{{json .NetworkSettings.Networks }}"
 
 
+
+== start all docker containers ==
+docker start $(docker ps -a -q)
+sleep 30
+docker start $(docker ps -a -q)
