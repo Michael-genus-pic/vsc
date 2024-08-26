@@ -12,7 +12,7 @@ upstream = ""
 fileContent = "server {\n\
     listen       80;\n\
     location / {\n\
-        index index.html;\n\
+        proxy_pass http://html;\n\
     }\n"
 
 for api, apiDetail in apis.items():

@@ -53,6 +53,16 @@ docker network create main
     docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name event2 event
     rm -rf utils ; ln -s ../utils utils
     cd ..
+#== html ==
+    echo "===== HTML ====="
+    cd html
+    echo "  ===== REMOVING CONTAINER AND IMAGE ====="
+    docker stop html; docker rm html ; docker rmi html
+    echo "  ===== BUILDING IMAGE ====="
+    docker build -t html . 
+    echo "  ===== STARTING CONTAINER ====="
+    docker run  -d  --network=main --add-host=host.docker.internal:host-gateway --name html html
+    cd ..
 #== queueprocessor == 
     echo "===== QUEUEPROCESSOR ====="
     cd queueprocessor
