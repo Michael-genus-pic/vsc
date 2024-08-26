@@ -7,7 +7,9 @@
 
 * prototypes:
   * all components are deployed as docker containers
-  * 3 micro services (animal, litter, event) only directly access corresponding database collections
+  * 3 API micro services (animal, litter, event) only directly access corresponding database collections
+  * 1 HTML micro service (html) serves HTML page
+  * 1 helper API micro service (notification) opens to write queue messages.
   * cross micro-service communication can be performed 
     * synchronously - directly makes the api call
     * asynchronously - enqueue the task 
