@@ -37,7 +37,7 @@ async def addOnTestEvent(onTest: OnTest) -> Event:
             detail={"msg": f"Event already Exists with {onTest.ident} at {onTest.testDate}"},
         )       
     try:
-        apiFunctions.animal_latest.Getanimalbyid(onTest.ident)
+        apiFunctions.animal_v2_0.Getanimalbyid(onTest.ident)
     except Exception as e:
         raise HTTPException(
             status_code=400,
@@ -47,7 +47,7 @@ async def addOnTestEvent(onTest: OnTest) -> Event:
     insertResult = collection.insert_one(onTestData)
     insertedEvent = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
     eventObj = mongoToJson(insertedEvent)
-    enqueueApiCall(apiFunctions.animal_latest.Addevent, {"ident": onTest.ident, "payload":eventObj })
+    enqueueApiCall(apiFunctions.animal_v2_0.Addevent, {"ident": onTest.ident, "payload":eventObj })
     return eventObj
 
 
@@ -64,7 +64,7 @@ async def addOffTestEvent(offTest: OffTest) -> Event:
             detail={"msg": f"Event already Exists with {offTest.ident} at {offTest.testDate}"},
         )       
     try:
-        apiFunctions.animal_latest.Getanimalbyid(offTest.ident)
+        apiFunctions.animal_v2_0.Getanimalbyid(offTest.ident)
     except Exception as e:
         raise HTTPException(
             status_code=400,
@@ -74,7 +74,7 @@ async def addOffTestEvent(offTest: OffTest) -> Event:
     insertResult = collection.insert_one(offTestData)
     insertedEvent = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
     eventObj = mongoToJson(insertedEvent)
-    enqueueApiCall(apiFunctions.animal_latest.Addevent, {"ident": offTest.ident, "payload":eventObj })
+    enqueueApiCall(apiFunctions.animal_v2_0.Addevent, {"ident": offTest.ident, "payload":eventObj })
     return eventObj
 
 

@@ -72,7 +72,7 @@ def getLitterMatesbyLitterId(litterId: int) -> LitterWithLitterMates:
     try:
         litter = getLitterById(litterId)
         litter["litterMates"] = []
-        litter["litterMates"] = apiFunctions.animal_latest.Getanimalbylitterid(litterId)
+        litter["litterMates"] = apiFunctions.animal_v2_0.Getanimalbylitterid(litterId)
     except Exception as e:
         pass
     return litter

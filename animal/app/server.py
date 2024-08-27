@@ -107,7 +107,7 @@ def addAnimal(animal: RawAnimal) -> Animal:
         )
     insertResult = collection.insert_one(animal.model_dump())
     insertedAnimal = collection.find_one({"_id": ObjectId(insertResult.inserted_id)})
-    enqueueApiCall(apiFunctions.litter_latest.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
+    enqueueApiCall(apiFunctions.litter_v1_0.AddPigletToLitter, {"litterId":insertedAnimal['litterId'], "pigletIdent": insertedAnimal['ident']})
     return mongoToJson(insertedAnimal)
 
 
