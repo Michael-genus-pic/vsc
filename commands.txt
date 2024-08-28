@@ -130,6 +130,4 @@ check network container is on
 
 
 == start all docker containers ==
-docker start $(docker ps -a -q)
-sleep 30
-docker start $(docker ps -a -q)
+docker start $(docker ps -a --format "{{.Names}}"); docker ps -a ; docker start $(docker ps -a --format "{{.Names}}")
